@@ -1,0 +1,38 @@
+using System; 
+using System.Collections.Generic; 
+using System.ComponentModel; 
+using System.Data; 
+using System.Drawing; 
+using System.Linq; 
+using System.Text; 
+using System.Windows.Forms; 
+using System.Drawing.Drawing2D; 
+
+namespace задача1 
+{ 
+
+public partial class Form1 : Form 
+{ 
+
+public Form1() 
+{ 
+InitializeComponent(); 
+} 
+
+private void button1_Click(object sender, EventArgs e) //действие при нажатии кнопки 
+{ 
+Bitmap bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height); //среда граф. объекта 
+Graphics gr = Graphics.FromImage(bmp); //создание граф. объекта 
+Pen p1 = new Pen(Color.Black, 1); //создание карандаша 1пиксель 
+SolidBrush b1 = new SolidBrush(Color.Red); 
+SolidBrush b2 = new SolidBrush(Color.Blue); 
+Rectangle rect = new Rectangle(0, 0, 200, 200); 
+Rectangle rect2 = new Rectangle(0, 0, 220, 200); 
+gr.DrawPie(p1, rect, 90, 45); 
+gr.DrawPie(p1, rect2, -90, 180); 
+//gr.FillPie(b1, rect, 90, 180); 
+//gr.FillPie(b2, rect2, -90, 180); 
+pictureBox1.Image = bmp; //вывод картинки в форму 
+} 
+} 
+}
