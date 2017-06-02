@@ -1,0 +1,85 @@
+# K15-2-Ryabovskiy-MainProject
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+
+namespace WindowsFormsApplication22
+{
+  public partial class Form1 : Form
+  {
+    private const int Level = 5;
+    //Высота и ширина для отрисовки
+    private int width;
+    private int height;
+    // Bitmap для фрактала
+    private Bitmap bmp;
+    // используем для отрисовки на PictureBox
+    private Graphics g;
+
+    public Form1()
+    {
+      InitializeComponent();
+      width = pictureBox1.Width;
+      height = pictureBox1.Height;
+    }
+    
+    private void button1_Click(object sender, EventArgs e)
+      {
+      //создаем Bitmap для прямоугольника
+      bmp = new Bitmap(width, height);
+      // cоздаем новый объект Graphics из указанного Bitmap
+      g = Graphics.FromImage(bmp);
+      //создаем прямоугольник и вызываем функцию отрисовки ковра
+      RectangleF carpet = new RectangleF(0, 0, width, height);
+      DrawCarpet(Level, carpet);
+      //отображаем результат
+      pictureBox1.BackgroundImage = bmp;
+    }
+
+    //private PointF MidPoint(PointF p1, PointF p2)
+    //{
+      // return new PointF((p1.X + p2.X) / 2f, (p1.Y + p2.Y) / 2f);
+    //}
+
+    private void DrawCarpet(int level, RectangleF carpet)
+    {
+      //проверяем, закончили ли мы построение
+      if (level == 0)
+      {
+        //Рисуем прямоугольник
+        g.FillRectangle(Brushes.DeepPink, carpet);
+      }
+      else
+       {
+        // делим прямоугольник на 9 частей
+
+        float width = carpet.Width / 3f;
+        float height = carpet.Height / 3f;
+
+        // (x1, y1) - координаты левой верхней вершины прямоугольника
+        // от нее будем отсчитывать остальные вершины маленьких прямоугольников
+
+        float x1 = carpet.Left;
+        float x2 = x1 + width;
+        float x3 = x1 + 2f * width;
+        float y1 = carpet.Top;
+        float y2 = y1 + height;
+        float y3 = y1 + 2f * height;
+
+        DrawCarpet(level - 1, new RectangleF(x1, y1, width, height)); // левый 1(верхний)
+        DrawCarpet(level - 1, new RectangleF(x2, y1, width, height)); // средний 1
+        DrawCarpet(level - 1, new RectangleF(x3, y1, width, height)); // правый 1
+        DrawCarpet(level - 1, new RectangleF(x1, y2, width, height)); // левый 2
+        DrawCarpet(level - 1, new RectangleF(x3, y2, width, height)); // правый 2
+        DrawCarpet(level - 1, new RectangleF(x1, y3, width, height)); // левый 3
+        DrawCarpet(level - 1, new RectangleF(x2, y3, width, height)); // средний 3
+        DrawCarpet(level - 1, new RectangleF(x3, y3, width, height)); // правый 3
+      }
+    }
+  }
